@@ -138,35 +138,37 @@ def analyze_profile(user_turns: list) -> dict:
 def build_profile_prompt(profile: dict) -> str:
     """
     根據畫像分析結果，生成要注入到 LLM System Prompt 的個人化指令。
+    V2：語氣更口語化，避免太「諮商師」的感覺。
     """
     parts = []
 
     # 因應型態
     if profile["coping_style"] == "emotion-focused":
-        parts.append("使用者屬於「情緒導向」型，需要被傾聽和接住。請使用 EFT 情緒焦點策略，著重同理心與情緒接納，不要急著給建議。")
+        parts.append("這個人需要的是「被聽見」，不是「被解決」。他說的那些情緒，你只要接住就好，不要急著分析或給方向。像朋友一樣說「真的很辛苦吧」就夠了。")
     elif profile["coping_style"] == "problem-focused":
-        parts.append("使用者屬於「問題導向」型，想要解決方案。請使用 SFBT 焦點解決策略，適時提供具體可行的行動建議。")
+        parts.append("這個人比較務實，他想要的是具體的方向，不是一直被同理。可以適時給一些簡單的建議或問他「那你有沒有想過可以怎麼做？」")
 
     # 社交傾向
     if profile["social_tendency"] == "introvert":
-        parts.append("使用者偏內向，禁止建議出門社交或找人聊天。給予安靜獨處的空間。")
+        parts.append("這個人偏內向，千萬不要叫他出門、找朋友或參加活動。他現在需要的是安靜的陪伴。")
     elif profile["social_tendency"] == "extrovert":
-        parts.append("使用者偏外向，可以建議他出門走走、找朋友聊聊或參加活動。")
+        parts.append("這個人偏外向，可以順勢建議他出去走走、約朋友聊聊。")
 
     # 表達程度（控制回覆長度）
     if profile["expression_level"] == "silent":
-        parts.append("使用者目前非常沉默，回覆請控制在 1~2 句話，不要問太多問題。")
+        parts.append("他現在話很少，你也不要講太多。回 1~2 句就好，別給壓力。")
     elif profile["expression_level"] == "reserved":
-        parts.append("使用者話不多但願意回應，回覆 2~3 句話即可。")
+        parts.append("他話不多但有在回應，你回 2~3 句就好。")
     elif profile["expression_level"] == "expressive":
-        parts.append("使用者很願意傾訴，可以回覆 3~5 句話做更深入的對話。")
+        parts.append("他很願意講，你可以回多一點，3~4 句，但也不要變成寫作文。")
 
     # 核心議題
     if profile["core_concerns"]:
         concerns_str = "、".join(profile["core_concerns"])
-        parts.append(f"使用者目前最關注的議題是：{concerns_str}。請圍繞這些主題展開對話。")
+        parts.append(f"他最近比較在意的事情是：{concerns_str}。聊天時可以自然地圍繞這些話題。")
 
     if not parts:
         return ""
 
-    return "【使用者畫像分析結果】\n" + "\n".join(parts)
+    return "【關於這個人，你需要知道的】\n" + "\n".join(parts)
+
