@@ -1,0 +1,23 @@
+# === Web Application ===
+streamlit>=1.35.0
+google-generativeai>=0.5.0
+
+# === Text-to-Speech ===
+edge-tts>=6.1.9
+nest_asyncio>=1.6.0
+
+# === Data & Storage ===
+chromadb>=0.4.24
+pandas>=2.0.0
+altair>=5.0.0
+
+# === NLP & Text Processing ===
+opencc-python-reimplemented>=0.1.7
+jieba>=0.42.1
+reportlab>=4.0.0
+
+# === Audio Processing (For SER Bridge) ===
+librosa>=0.10.0
+soundfile>=0.12.0
+torch>=2.0.0
+transformers>=4.36.0
